@@ -4,7 +4,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Create from "../Exercises/Dialogs/Create";
 
-export default function Header() {
+export default function Header({muscles, onExerciseCreate}) {
     const styles = {
         Typography: {
             flex:1
@@ -17,7 +17,7 @@ export default function Header() {
                 <Typography variant="h4" color="inherit" style={styles.Typography}>
                     Exercise database
                 </Typography>
-                <Create />
+                <Create categories={muscles} onCreate={onExerciseCreate}/>
             </Toolbar>
         </AppBar>
     );

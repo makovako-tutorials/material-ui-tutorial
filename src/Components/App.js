@@ -31,11 +31,15 @@ function App() {
     };
 
     const exercisesByMuscles = getExercisesByMuscles()
+
+    const onExerciseCreate = exercise => {
+      setExercises(prevState => [...prevState,exercise])
+    }
     
 
     return (
         <>
-            <Header />
+            <Header muscles={muscles} onExerciseCreate={onExerciseCreate}/>
             <Exercises
                 exercises={exercisesByMuscles}
                 category={category}
