@@ -10,21 +10,21 @@ const useStyles = makeStyles({
     }
 });
 
-export default function Footer({ muscles }) {
+export default function Footer({ muscles, onSelect, category }) {
     const classes = useStyles();
 
-    const [value, setValue] = React.useState(0);
+    const index = category ? muscles.findIndex(group => group === category) + 1 : 0
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    const onIndexSelect = (e, index) => {
+        onSelect(index === 0 ? '' : muscles[index - 1])
+    }
 
     
     return (
         <Paper className={classes.root}>
             <Tabs
-                value={value}
-                onChange={handleChange}
+                value={index}
+                onChange={onIndexSelect}
                 indicatorColor="primary"
                 textColor="primary"
                 centered

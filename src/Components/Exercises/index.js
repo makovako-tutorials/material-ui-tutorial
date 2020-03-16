@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
     Grid,
     Paper,
@@ -7,8 +7,6 @@ import {
     List,
     ListItemText
 } from "@material-ui/core";
-import LeftPane from "./LeftPane";
-import RightPane from "./RightPane";
 
 const styles = {
     Paper: {
@@ -16,41 +14,56 @@ const styles = {
         marginBottom: 10,
         marginTop: 10,
         height: 500,
-        overflowY: 'auto'
+        overflowY: "auto"
     }
 };
 
-export default ({ exercises }) => {
-    console.log(exercises);
+export default ({
+    exercises,
+    category,
+    exercise: {
+        id,
+        description = "Please select an exercie from list on the left",
+        title = "Welcome"
+    },
+    onSelect
+}) => {
 
+    
     return (
         <Grid container>
             <Grid item sm>
                 <Paper style={styles.Paper}>
-                    {exercises.map(([group, exercises]) => (
-                        <>
-                            <Typography
-                                variant="h5"
-                                style={{ textTransform: "capitalize" }}
-                            >
-                                {group}
-                            </Typography>
-                            <List component="ul">
-                                {exercises.map(({ title }) => (
-                                    <ListItem>
-                                        <ListItemText primary={title} />
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </>
-                    ))}
+                    {exercises.map(([group, exercises]) =>
+                        !category || category === group ? (
+                            <Fragment key={group}>
+                                <Typography
+                                    variant="h5"
+                                    style={{ textTransform: "capitalize" }}
+                                >
+                                    {group}
+                                </Typography>
+                                <List component="ul">
+                                    {exercises.map(({ id, title }) => (
+                                        <ListItem
+                                            key={id}
+                                            onClick={() => onSelect(id)}
+                                            button
+                                        >
+                                            <ListItemText primary={title} />
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </Fragment>
+                        ) : null
+                    )}
                 </Paper>
             </Grid>
             <Grid item sm>
                 <Paper style={styles.Paper}>
-                    <Typography variant="h4">Welcome</Typography>
-                    <Typography variant="h5" style={{marginTop: 20}}>
-                        Please select an exercie from list on the left
+                    <Typography variant="h4">{title}</Typography>
+                    <Typography variant="h5" style={{ marginTop: 20 }}>
+                        {description}
                     </Typography>
                 </Paper>
             </Grid>

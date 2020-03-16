@@ -6,6 +6,9 @@ import { muscles, exercises as originalExercises } from "../store";
 
 function App() {
     const [exercises, setExercises] = useState(originalExercises);
+    
+    const [category, setCategory] = useState();
+    const [exercise, setExercise] = useState({});
 
     const getExercisesByMuscles = () => {
         return Object.entries(
@@ -19,14 +22,31 @@ function App() {
         );
     };
 
-    const exercisesByMuscles = getExercisesByMuscles()
+    const handleCategorySelected = cat => {
+        setCategory(cat);
+    };
 
+    const handleExerciseSelected = id => {
+        setExercise(exercises.find(ex => ex.id === id));
+    };
+
+    const exercisesByMuscles = getExercisesByMuscles()
+    
 
     return (
         <>
             <Header />
-            <Exercises exercises={exercisesByMuscles} />
-            <Footer muscles={muscles} />
+            <Exercises
+                exercises={exercisesByMuscles}
+                category={category}
+                onSelect={handleExerciseSelected}
+                exercise={exercise}
+            />
+            <Footer
+                muscles={muscles}
+                onSelect={handleCategorySelected}
+                category={category}
+            />
         </>
     );
 }
